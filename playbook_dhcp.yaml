@@ -1,0 +1,40 @@
+---
+- name: Configure DHCP 
+  hosts: dhcp
+  become: true
+
+  tasks:
+    - name: Install ISC DHCP server
+      apt:
+        update_cache: true
+        name: isc-dhcp-server
+        state: present
+
+    - name: Set DHCP interface (eth2)
+      copy:
+        dest: /etc/default/isc-dhcp-server
+        content: 'INTERFACESv4="eth2"'
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Copy TSIG key (same as DNS)
+      copy:
+        src: ddns.key
+        dest: /etc/dhcp/ddns.key
+        owner: root
+        group: root
+        mode: '0600'
+
+    - name: Copy DHCP config
+      copy:
+        src: dhcpd.conf
+        dest: /etc/dhcp/dhcpd.conf
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Restart DHCP service
+      service:
+        name: isc-dhcp-server
+        state: restarted

@@ -10,7 +10,6 @@ Vagrant.configure("2") do |config|
     server.vm.network "private_network", ip: "192.168.58.20" 
     server.vm.network "private_network", virtualbox__intnet: "redinterna1", ip: "192.168.58.30"
     
-    server.vm.provision "shell", path: "provision_server.sh", privileged:true
   end
 
   config.vm.define "dns" do |default|

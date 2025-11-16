@@ -1,0 +1,62 @@
+---
+- name: Configure DNS server
+  hosts: dns
+  become: true
+
+  tasks:
+    - name: Update system
+      apt:
+        update_cache: true
+
+    - name: Install bind9 and tools
+      apt:
+        name:
+          - bind9
+          - bind9utils
+          - bind9-dnsutils
+        state: present
+
+    - name: Copy TSIG key
+      copy:
+        src: ddns.key
+        dest: /etc/bind/ddns.key
+        owner: root
+        group: bind
+        mode: '0640'
+
+    - name: Copy named.conf.options
+      copy:
+        src: named.conf.options
+        dest: /etc/bind/named.conf.options
+        owner: root
+        group: bind
+        mode: '0644'
+
+    - name: Copy named.conf.local
+      copy:
+        src: named.conf.local
+        dest: /etc/bind/named.conf.local
+        owner: root
+        group: bind
+        mode: '0644'
+
+    - name: Copy forward zone
+      copy:
+        src: serafin.test.dns
+        dest: /var/lib/bind/serafin.test.dns
+        owner: bind
+        group: bind
+        mode: '0644'
+
+    - name: Copy reverse zone
+      copy:
+        src: serafin.test.rev
+        dest: /var/lib/bind/serafin.test.rev
+        owner: bind
+        group: bind
+        mode: '0644'
+
+    - name: Restart bind9
+      service:
+        name: bind9
+        state: restarted

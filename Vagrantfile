@@ -13,10 +13,8 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "dns" do |default|
-    default.vm.network "private_network", ip: "192.168.58.10"  
-    default.vm.network "private_network", virtualbox__intnet: "redinterna1", ip: "192.168.58.10"
+    default.vm.network "private_network", ip: "192.168.58.10"
   end
-
    
   config.vm.define "c1" do |c1|
     c1.vm.hostname = "c1"

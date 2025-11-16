@@ -1,0 +1,14 @@
+$TTL    86400
+@       IN      SOA     dns.serafin.test. root.serafin.test. (
+                            1       ; Serial
+                            604800  ; Refresh
+                            86400   ; Retry
+                            2419200 ; Expire
+                            86400 ) ; Negative Cache TTL
+;
+@               IN      NS      dns.serafin.test.
+@               IN      NS      dhcp.serafin.test.
+
+; Registros PTR
+10      IN  PTR dns.serafin.test.
+30      IN  PTR dhcp.serafin.test.

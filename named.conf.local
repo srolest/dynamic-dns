@@ -1,0 +1,15 @@
+// 
+
+zone "serafin.test" {
+    type master;
+    file "/var/lib/bind/serafin.test.dns";
+    allow-update { key "ddns-key"; };
+    allow-transfer { none; };
+};
+
+zone "58.168.192.in-addr.arpa" {
+    type master;
+    file "/var/lib/bind/serafin.test.rev";
+    allow-update { key "ddns-key"; };
+    allow-transfer { none; };
+};

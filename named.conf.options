@@ -1,14 +1,12 @@
 options {
     directory "/var/cache/bind";
-
     recursion no;
     allow-query { any; };
     listen-on { any; };
-
     dnssec-validation no;
+};
 
-    key "ddns-key" {
-        algorithm hmac-sha256;
-        secret "SFmzmGR7n3+SwQcLa3hr++GDcTXGWiLGQjn+4YeJG5E=";
-    };
+key "ddns-key" {
+    algorithm hmac-sha256;
+    secret "SFmzmGR7n3+SwQcLa3hr++GDcTXGWiLGQjn+4YeJG5E=";
 };

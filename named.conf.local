@@ -1,5 +1,3 @@
-// 
-
 zone "serafin.test" {
     type master;
     file "/var/lib/bind/serafin.test.dns";

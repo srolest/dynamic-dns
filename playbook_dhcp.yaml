@@ -13,7 +13,7 @@
     - name: Set DHCP interface (eth2)
       copy:
         dest: /etc/default/isc-dhcp-server
-        content: 'INTERFACESv4="eth2"'
+        content: 'INTERFACESv4="eth1"'
         owner: root
         group: root
         mode: '0644'

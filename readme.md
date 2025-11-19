@@ -4,7 +4,7 @@
 
 The environment is defined in practice (we will see it below), and we will do so using a private network `192.168.58.0/24`.
 
-[Diagrama del Escenario](./images/environment.png)
+[ENVIRONMENT](./images/environment.png)
 
 The virtual machines (`Vagrantfile`) and their roles are as follows:
 
@@ -89,8 +89,8 @@ First, we check that client `c1` has received the IP we expected from the range.
 ### 2. DHCP Server Logs
 Now, on the `dhcp` server, we review the logs to see if it has sent the update to the DNS.
 
-* **Máquina:** `dhcp`
-* **Comando:** `sudo journalctl -u isc-dhcp-server -n 10`
+* **Machine:** `dhcp`
+* **Command:** `sudo journalctl -u isc-dhcp-server -n 10`
 
 ```bash
 ...

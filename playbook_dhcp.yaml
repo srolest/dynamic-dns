@@ -10,7 +10,7 @@
         name: isc-dhcp-server
         state: present
 
-    - name: Set DHCP interface (eth2)
+    - name: Set DHCP interface (eth1)
       copy:
         dest: /etc/default/isc-dhcp-server
         content: 'INTERFACESv4="eth1"'

@@ -65,3 +65,39 @@ To implement the practice, I followed these four steps:
     ```
 
 ---
+
+## (Step-by-Step Tests)
+
+Here I show how it works right after executing step 4.
+
+### 1. Client `c1` receives its IP
+First, we check that client `c1` has received the IP we expected from the range.
+
+* **Machine:** `c1`
+* **Command:** `ip a show eth1`
+
+```bash
+3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:24:2a:56 brd ff:ff:ff:ff:ff:ff
+    altname enp0s8
+    inet 192.168.58.100/24 brd 192.168.58.255 scope global dynamic eth1
+       valid_lft 85559sec preferred_lft 85559sec
+    inet6 fe80::a00:27ff:fe24:2a56/64 scope link 
+       valid_lft forever preferred_lft forever
+```
+
+### 2. DHCP Server Logs
+Now, on the `dhcp` server, we review the logs to see if it has sent the update to the DNS.
+
+* **Máquina:** `dhcp`
+* **Comando:** `sudo journalctl -u isc-dhcp-server -n 10`
+
+```bash
+...
+Nov 19 18:18:06 dhcp dhcpd[384]: DHCPDISCOVER from 08:00:27:24:2a:56 via eth1
+Nov 19 18:18:07 dhcp dhcpd[384]: DHCPOFFER on 192.168.58.100 to 08:00:27:24:2a:56 (c1) via eth1
+Nov 19 18:18:07 dhcp dhcpd[384]: DHCPREQUEST for 192.168.58.100 (192.168.58.30) from 08:00:27:24:2a:56 (c1) via eth1
+Nov 19 18:18:07 dhcp dhcpd[384]: DHCPACK on 192.168.58.100 to 08:00:27:24:2a:56 (c1) via eth1
+Nov 19 18:18:07 dhcp dhcpd[384]: Added new forward map from c1.serafin.test. to 192.168.58.100
+Nov 19 18:18:07 dhcp dhcpd[384]: Added reverse map from 100.58.168.192.58.168.192.in-addr.arpa. to c1.serafin.test.
+```

@@ -1,6 +1,6 @@
 # README: DYNAMIC DNS (DDNS)
 
-## Escenario de la Práctica
+## Practice Environment
 
 The environment is defined in practice (we will see it below), and we will do so using a private network `192.168.58.0/24`.
 

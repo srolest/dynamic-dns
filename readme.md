@@ -101,3 +101,57 @@ Nov 19 18:18:07 dhcp dhcpd[384]: DHCPACK on 192.168.58.100 to 08:00:27:24:2a:56 
 Nov 19 18:18:07 dhcp dhcpd[384]: Added new forward map from c1.serafin.test. to 192.168.58.100
 Nov 19 18:18:07 dhcp dhcpd[384]: Added reverse map from 100.58.168.192.58.168.192.in-addr.arpa. to c1.serafin.test.
 ```
+
+### 3. DNS Server Logs
+Let's go to the `dns` server to see if it received the DHCP request and if it accepted it.
+
+* **Máquina:** `dns`
+* **Comando:** `journalctl -u bind9 -n 10`
+
+```bash
+...
+named[...]: client @0x... 192.168.58.30#12345/key ddns-key: signer "ddns-key" approved
+named[...]: client @0x... 192.168.58.30#12345/key ddns-key: updating zone 'serafin.test/IN': adding an RR at 'c1.serafin.test' A 192.168.58.100
+named[...]: client @0x... 192.168.58.30#12345/key ddns-key: signer "ddns-key" approved
+named[...]: client @0x... 192.168.58.30#12345/key ddns-key: updating zone '58.168.192.in-addr.arpa/IN': adding an RR at '100.58.168.192.in-addr.arpa' PTR c1.serafin.test.
+```
+
+### 4. Test with `dig`
+We check on the `dns` server itself to see if it is already aware of the change. We do not do this from outside the dns machine, as this would require connecting to the internet with another network adapter with a different IP address. We check from the `dns` virtual machine.
+
+* **Machine:** `dns`
+* **Command (Direct):** `dig @127.0.0.1 c1.serafin.test`
+* **Command (Reverse):** `dig @127.0.0.1 -x 192.168.58.100`
+
+[DIG_DIRECT_ZONE](./images/dig.png)
+
+```bash
+; <<>> DiG 9.16.50-Debian <<>> @127.0.0.1 -x 192.168.58.100
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NXDOMAIN, id: 30322
+;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 1
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: ce2d2a4e6c6094f501000000691e2e84b77649d0c9319003 (good)
+;; ANSWER SECTION:
+100.58.168.192.in-addr.arpa. 3600 IN	PTR	c1.serafin.test.
+
+;; Query time: 0 msec
+;; SERVER: 127.0.0.1#53(127.0.0.1)
+;; WHEN: Wed Nov 19 20:54:28 UTC 2025
+;; MSG SIZE  rcvd: 141
+```
+
+---
+
+## Key Project Files
+* `Vagrantfile`: Defines and creates the three virtual machines.
+* `playbook_dns.yaml`: Ansible playbook that configures the `dns` server.
+* `playbook_dhcp.yaml`: Ansible playbook that configures the `dhcp` server.
+* `ddns.key`: The secret key shared by both servers.
+* `dhcpd.conf`: File that tells the DHCP how to update the DNS.
+* `named.conf.local`: File that tells the DNS to accept updates from the DHCP.

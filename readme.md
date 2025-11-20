@@ -121,30 +121,10 @@ We check on the `dns` server itself to see if it is already aware of the change.
 
 * **Machine:** `dns`
 * **Command (Direct):** `dig @127.0.0.1 c1.serafin.test`
-* **Command (Reverse):** `dig @127.0.0.1 -x 192.168.58.100`
+* **Command (Reverse):** `dig @127.0.0.1 -x 192.168.58.101`
 
 [DIG_DIRECT_ZONE](./images/dig.png)
-
-```bash
-; <<>> DiG 9.16.50-Debian <<>> @127.0.0.1 -x 192.168.58.100
-; (1 server found)
-;; global options: +cmd
-;; Got answer:
-;; ->>HEADER<<- opcode: QUERY, status: NXDOMAIN, id: 30322
-;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 1
-;; WARNING: recursion requested but not available
-
-;; OPT PSEUDOSECTION:
-; EDNS: version: 0, flags:; udp: 1232
-; COOKIE: ce2d2a4e6c6094f501000000691e2e84b77649d0c9319003 (good)
-;; ANSWER SECTION:
-100.58.168.192.in-addr.arpa. 3600 IN	PTR	c1.serafin.test.
-
-;; Query time: 0 msec
-;; SERVER: 127.0.0.1#53(127.0.0.1)
-;; WHEN: Wed Nov 19 20:54:28 UTC 2025
-;; MSG SIZE  rcvd: 141
-```
+[DIG_REVERSE_ZONE](./images/diginversa.png)
 
 ---
 

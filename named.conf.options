@@ -7,6 +7,6 @@ options {
 };
 
 key "ddns-key" {
-    algorithm hmac-sha256;
-    secret "SFmzmGR7n3+SwQcLa3hr++GDcTXGWiLGQjn+4YeJG5E=";
+        algorithm hmac-sha256;
+        secret "94DF047MxRLdiL+RDq0pUHprMy1CPCfs4UMbZUTISXU=";
 };
